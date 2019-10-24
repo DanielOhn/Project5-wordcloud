@@ -1,5 +1,18 @@
 .App {
   text-align: center;
-  background-color: slategray;
-  color: white;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.cloud {
+  height: 75vh;
+  width: 50em;
 }
