@@ -4,13 +4,19 @@ import TagCloud from 'react-tag-cloud'
 import '../styles/App.css'
 
 function App() {
-  // const [user, setUser] = useState()
+  const [user, setUser] = useState()
   const [data, setData] = useState()
 
+  const checkUser = () => {
+    if (user) {
+      getComments()
+    }
+  }
+
   function getComments() {
-    fetch(
-      'https://www.reddit.com/user/AN_HONEST_COMMENT/comments/.json?limit=5'
-    )
+    setData()
+
+    fetch('https://www.reddit.com/user/' + user + '/comments/.json?limit=25')
       .then(res => res.json())
       .then(res => {
         const tempComments = res.data.children.map(info => info.data.body)
@@ -32,12 +38,8 @@ function App() {
           }
         }
 
-        Object.keys(wordArray).map((i, j) =>
-          console.log(i + ' - ' + wordArray[i])
-        )
-        console.log(wordArray)
         setData(wordArray)
-      })
+      }).catch(e => console.log(e.message))
   }
 
   function randomColor() {
@@ -53,8 +55,12 @@ function App() {
     <div className="App">
       <h1>Reddit Comments WordCloud</h1>
       <p>Get your last 100 comments in the form of a word cloud.</p>
-      {/* {data && Object.keys(data).map(i => console.log(data[i]))} */}
-      <button onClick={getComments}>git it</button>
+
+      <input
+        placeholder="Enter reddit username"
+        onChange={event => setUser(event.target.value)}
+      />
+      <button onClick={checkUser}>get user</button>
 
       <TagCloud className="cloud">
         {data &&
